@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TicketSystem.Data.Migrations
 {
     /// <inheritdoc />
@@ -31,8 +33,8 @@ namespace TicketSystem.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,6 +123,25 @@ namespace TicketSystem.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Department",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Human Resources" },
+                    { 5, "IT" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ITTeams",
+                columns: new[] { "Id", "Email", "FullName", "PasswordHash" },
+                values: new object[] { 1, "it@example.com", "Omar IT Support", "$2a$12$A3aIyrP5RyvXZZ6uDuLAHObBtXkeVWZGm4pT8Hpy1iyu.d0Fewor." });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "DepartmentId", "Email", "FullName", "PasswordHash", "RemoteConnectionId", "Role" },
+                values: new object[] { 1, 1, "employee@example.com", "Ahmad Employee", "$2a$12$A3aIyrP5RyvXZZ6uDuLAHObBtXkeVWZGm4pT8Hpy1iyu.d0Fewor.", "123456789", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_TicketId",

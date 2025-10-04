@@ -12,7 +12,7 @@ using TicketSystem.Data;
 namespace TicketSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250918201645_InitialCreate")]
+    [Migration("20251004060842_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -72,6 +72,18 @@ namespace TicketSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Department");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Human Resources"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "IT"
+                        });
                 });
 
             modelBuilder.Entity("TicketSystem.Core.Models.ITTeam", b =>
@@ -82,7 +94,7 @@ namespace TicketSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("EmailAddress")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -90,12 +102,22 @@ namespace TicketSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("ITTeams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "it@example.com",
+                            FullName = "Omar IT Support",
+                            PasswordHash = "$2a$12$A3aIyrP5RyvXZZ6uDuLAHObBtXkeVWZGm4pT8Hpy1iyu.d0Fewor."
+                        });
                 });
 
             modelBuilder.Entity("TicketSystem.Core.Models.Ticket", b =>
@@ -182,6 +204,18 @@ namespace TicketSystem.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DepartmentId = 1,
+                            Email = "employee@example.com",
+                            FullName = "Ahmad Employee",
+                            PasswordHash = "$2a$12$A3aIyrP5RyvXZZ6uDuLAHObBtXkeVWZGm4pT8Hpy1iyu.d0Fewor.",
+                            RemoteConnectionId = "123456789",
+                            Role = 0
+                        });
                 });
 
             modelBuilder.Entity("TicketSystem.Core.Models.Comment", b =>

@@ -12,10 +12,11 @@ namespace TicketSystem.Controllers
         private readonly ITokenService _tokenService;
         private readonly IITTeamService _teamService;
 
-        public AccountController(IUserService userService, ITokenService tokenService)
+        public AccountController(IUserService userService, ITokenService tokenService, IITTeamService iTTeamService)
         {
             _tokenService = tokenService;
             _userService = userService;
+            _teamService = iTTeamService;
         }
 
         [HttpPost("login")]
@@ -29,9 +30,9 @@ namespace TicketSystem.Controllers
                 var result = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash);
                 if (!result) return Unauthorized("Invalid email or password");
 
-                return new { token = _tokenService.CreateToken(user, user.Role.ToString()) };
+                return new { token = _tokenService.CreateToken(user) };
             }
-            else if (loginDto.Role == "Manager")
+            else if (loginDto.Role == "IT")
             {
                 var itMember = await _teamService.GetByEmailAsync(loginDto.Email);
                 if (itMember == null) return Unauthorized("Invalid email or password");
@@ -39,7 +40,7 @@ namespace TicketSystem.Controllers
                 var result = BCrypt.Net.BCrypt.Verify(loginDto.Password, itMember.PasswordHash);
                 if (!result) return Unauthorized("Invalid email or password");
 
-                return new { token = _tokenService.CreateToken(itMember, itMember.Role.ToString()) };
+                return new { token = _tokenService.CreateToken(itMember) };
             }
 
             return Unauthorized("Invalid role");

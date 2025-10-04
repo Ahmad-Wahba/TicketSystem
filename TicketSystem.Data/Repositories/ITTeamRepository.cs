@@ -46,7 +46,7 @@ namespace TicketSystem.Data.Repositories
 
         public async Task<ITTeam?> GetByEmailAsync(string email)
         {
-            return await _context.ITTeams.FirstOrDefaultAsync(u => u.EmailAddress == email);
+            return await _context.ITTeams.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 

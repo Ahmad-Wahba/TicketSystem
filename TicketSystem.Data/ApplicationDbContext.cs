@@ -32,7 +32,7 @@ namespace TicketSystem.Data
                     Id = 1,
                     FullName = "Ahmad Employee",
                     Email = "employee@example.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                    PasswordHash = "$2a$12$A3aIyrP5RyvXZZ6uDuLAHObBtXkeVWZGm4pT8Hpy1iyu.d0Fewor.",
                     RemoteConnectionId = "123456789",
                     Role = UserRole.Employee,
                     DepartmentId = 1
@@ -46,7 +46,7 @@ namespace TicketSystem.Data
                     Id = 1,
                     FullName = "Omar IT Support",
                     Email = "it@example.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Password123"),
+                    PasswordHash = "$2a$12$A3aIyrP5RyvXZZ6uDuLAHObBtXkeVWZGm4pT8Hpy1iyu.d0Fewor.",
                     DepartmentId = 5
                 }
             );

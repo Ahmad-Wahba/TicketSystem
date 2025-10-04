@@ -33,6 +33,9 @@ namespace TicketSystem
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IITTeamService, ITTeamService>();
+            builder.Services.AddScoped<IITTeamRepository, ITTeamRepository>();
+
 
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

@@ -19,7 +19,7 @@ namespace TicketSystem.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
         }
 
-        public string CreateToken(object user, string role)
+        public string CreateToken(object user)
         {
             var claims = new List<Claim>();
 
@@ -33,12 +33,9 @@ namespace TicketSystem.Services
             else if (user is ITTeam itMember)
             {
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, itMember.Id.ToString()));
-                claims.Add(new Claim(JwtRegisteredClaimNames.Email, itMember.EmailAddress));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Email, itMember.Email));
                 claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             }
-
-            claims.Add(new Claim(ClaimTypes.Role, role));
-
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
